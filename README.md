@@ -131,65 +131,63 @@ will be saved under the corresponding `projects/my_experiment/` subfolders.
 ---
 ## Appendix
 
-* Tested environment
-
-The pipeline was validated in the following Python environment.  
-These versions are not strict requirements, but indicate the setup in which the code was tested and the paper results were reproduced.
-
-- Python 3.10
-- numpy 1.26.4
-- scipy 1.12.0
-- pandas 2.2.2
-- pillow 10.x
-- scikit-image 0.23.x
-- opencv-python 4.10.0
-- matplotlib 3.9.2
-- seaborn 0.13.x
-- tqdm 4.66.x
-- tifffile 2024.x
-- albumentations 2.0.8
-- numba 0.59.x
-- numexpr 2.10.x
-- colorspacious 1.1.2
-- torch 2.8.0
-- torchvision 0.23.0
-
-
-
-* Known limitations
-
-The demo is tuned for 2D swimming bacteria; dense biofilms or extreme overlaps need further tuning.
-Association is currently heuristic (IoU).
-Training code and pretrained weights are minimal; bring your own model if needed.
+### Tested environment
+  
+  The pipeline was validated in the following Python environment.  
+  These versions are not strict requirements, but indicate the setup in which the code was tested and the paper results were reproduced.
+  
+  - Python 3.10
+  - numpy 1.26.4
+  - scipy 1.12.0
+  - pandas 2.2.2
+  - pillow 10.x
+  - scikit-image 0.23.x
+  - opencv-python 4.10.0
+  - matplotlib 3.9.2
+  - seaborn 0.13.x
+  - tqdm 4.66.x
+  - tifffile 2024.x
+  - albumentations 2.0.8
+  - numba 0.59.x
+  - numexpr 2.10.x
+  - colorspacious 1.1.2
+  - torch 2.8.0
+  - torchvision 0.23.0
+  
 
 
-* Contributing
-
-Pull requests are welcome!
-Please keep code style simple and add short English comments/docstrings.
-For features with many parameters, prefer config files over long CLI flags.
-
-* License
-
-Code: MIT (unless stated otherwise inside subfolders)
-
-Third-party notice: Parts of the embedding-based segmentation approach are inspired by / derived from EmbedSeg. If you include or adapt EmbedSeg code/assets governed by CC BY-NC 4.0, that material remains non-commercial and must retain attribution. See THIRD_PARTY_LICENSES.md for details.
-
-If you plan commercial use, review third-party licenses carefully and remove/replace non-commercial components.
-
-* Citation
-
-If you use this software in your research, please cite:
-
-@software{synembtrack,
-  author  = {Son, Joowang and contributors},
-  title   = {synembtrack: embedding-based instance segmentation and tracking for motile bacteria},
-  year    = {2025},
-  url     = {https://github.com/joowson/synembtrack}
-}
+### Known limitations
+  
+  The demo is tuned for 2D swimming bacteria; dense biofilms or extreme overlaps need further tuning.
+  Association is currently heuristic (IoU).
+  Training code and pretrained weights are minimal; bring your own model if needed.
 
 
-* Acknowledgements
+### Contributing
+  
+  Pull requests are welcome!
+  Please keep code style simple and add short English comments/docstrings.
+  For features with many parameters, prefer config files over long CLI flags.
+
+### License
+
+  Code: MIT (unless stated otherwise inside subfolders)
+  
+  Third-party notice: Parts of the embedding-based segmentation approach are inspired by / derived from EmbedSeg. If you include or adapt EmbedSeg code/assets governed by CC BY-NC 4.0, that material remains non-commercial and must retain attribution. See THIRD_PARTY_LICENSES.md for details. If you plan commercial use, review third-party licenses carefully and remove/replace non-commercial components.
+
+### Citation
+
+  If you use this software in your research, please cite:
+  
+  @software{synembtrack,
+    author  = {Son, Joowang and contributors},
+    title   = {synembtrack: embedding-based instance segmentation and tracking for motile bacteria},
+    year    = {2025},
+    url     = {https://github.com/joowson/synembtrack}
+  }
+
+
+### Acknowledgements
 
 We acknowledge the developers of EmbedSeg and related open-source tools in the microscopy tracking ecosystem. Community feedback and issues are very welcome.
 
