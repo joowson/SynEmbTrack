@@ -1,29 +1,15 @@
-synembtrack
+**synembtrack** provides the source code, scripts and demo required to reproduce the pipeline used in our paper: synthetic data generation → embedding-based instance segmentation → frame-to-frame association and trajectory extraction. The repository favors small, script-driven workflows over complex CLIs and includes a tiny demo for a quick smoke test aimed at scholarly reproducibility.
 
-Synthetic data → Embedding-based instance segmentation → Cell association / trajectory extraction
-A lightweight, research-oriented toolbox for tracking motile bacteria in 2D microscopy videos.
+This code accompanies our manuscript “Tracking of motile bacteria with synthetic image aided instance segmentation and quantitative analysis of run-and-tumble motion” (Son et al., under review).
 
-Features
-
-Synthetic dataset builder for moderately dense, swimming bacteria
-
-Embedding-based instance segmentation pipeline (EmbedSeg-style)
-
-Frame-to-frame association with IoU & distance heuristics
-
-Trajectory export to CSV/Parquet and basic visualization utilities
-
-Reproducible project layout (src-layout packaging, scripts, configs)
-
-Note: This repo targets research & reproducibility first. APIs are intentionally simple and avoid complex CLI with many parameters.
-
-Repository structure
+## Repository structure
+```
 synembtrack/
 ├─ configs/                     # Presets & config samples (TOML/YAML)
 ├─ data_raw_images/             # (tiny) demo raw images for quick try-out
 ├─ projects/                    # Example project folders (outputs live here)
-├─ scripts/                     # Step-by-step runnable scripts (training/eval)
-├─ tools/                       # Small utilities (e.g., trajectory visualization)
+├─ scripts/                     # Step-by-step runnable scripts (generating synthetic dataset / training / segmentation and tracking)
+├─ tools/                       # Small utilities (e.g., visualization)
 ├─ src/
 │  └─ synembtrack/              # Python package (installable via pip -e .)
 │     ├─ synth/                 # Synthetic image generator
@@ -33,97 +19,151 @@ synembtrack/
 │     └─ cmaps/                 # Colormaps, palettes
 ├─ pyproject.toml               # Packaging (PEP 621)
 └─ README.md
+```
 
-Installation
-1) Create environment (recommended)
-# conda (example)
+---
+
+## Installation
+
+We recommend creating a clean virtual environment (e.g., with **conda**) before installation:
+
+```bash
 conda create -n synembtrack python=3.10 -y
 conda activate synembtrack
+```
 
-2) Editable install
-# from the repository root
+Then install the package:
+
+```bash
+git clone https://github.com/joowson/synembtrack.git
+cd synembtrack
+
+# Editable mode (recommended for development)
 pip install -e .
+# Or, standard installation
+pip install .
+```
+
+This makes the package synembtrack importable in Python.
 
 
-This installs synembtrack in development mode so you can edit source under src/ and use it immediately.
+## Quickstart
 
-Quick start (5 min)
-Smoke test
+### Smoke test (5 min)
+```
 python -c "import synembtrack, importlib; print('synembtrack ok')"
-
-Minimal workflow outline
-
-Prepare data
-Put a few microscopy frames (TIF/PNG) under a project folder, e.g.:
-
-projects/demo_2Dsuspension_25C/
-  ├─ images/
-  └─ (optional) masks/     # if you already have instance masks
+```
 
 
-Run segmentation & save instance masks
-Use the example in scripts/ to segment images into per-frame instance masks.
+### Minimal workflow outline
+To reproduce the full pipeline, run the scripts in the following order:
 
-# example: segmentation pipeline (adjust to your script names)
-python scripts/seg_run_demo.py \
-  --project projects/demo_2Dsuspension_25C
+```bash
+# 1. Synthetic data preparation
+python scripts/imgGen_run_01_extraction_background.py
+python scripts/imgGen_run_02_extraction_patch.py
+python scripts/imgGen_run_03_prune_alpha_layers.py
+python scripts/imgGen_run_04_gen_image.py
+
+# 2. Segmentation training
+python scripts/segTrain_run_01_data.py
+python scripts/segTrain_run_02_train.py
+
+# 3. Tracking
+python scripts/track_run_03_predict.py
+python scripts/track_run_04_run_associ.py
+````
+
+### Step overview
+
+1. **Background extraction** – extract background from raw images.
+2. **Patch extraction** – cut out cell/patch regions.
+3. **Prune alpha layers** – manually inspect extracted patches in the `integrity_check/` folder and delete non-bacterial objects. The corresponding patch files in `alpha_layer/` are removed accordingly.
+4. **Synthetic image generation** – build the synthetic training dataset.
+5. **Prepare training data** – organize images and masks for segmentation.
+6. **Train segmentation model** – train the embedding-based instance segmentation network.
+7. **Predict** – apply the trained model to generate instance masks.
+8. **Association** – link objects across frames and produce trajectories.
+
+The scripts are designed to be run sequentially.
+Each step produces intermediate files required for the next step.
+
+---
+
+### Using your own data
+
+The repository includes sample bacterial images for quick testing.
+By default, the pipeline runs on these samples.
+
+To test with your own data:
+
+* **Folder structure**
+  Place your images under a new project directory, for example:
+
+  ```
+  data_raw_images/my_data_name/images/
+  data_raw_images/my_data_name/masks/       # (if manual masks are available)
+  ```
+  and insert data, synth, associ information 
+
+* **File format**
+  Images should be in standard formats (`frame_XXXX.tif`).
+  Masks, if provided, are recommended to be labeled as integer labels (0 = background, 1..K = instances).
+
+* **Configuration**  
+Edit the corresponding config file (under `configs/`) to match your setup.:
+  ```
+  configs/configs_data.toml (raw images)  
+  configs/configs_synth.toml (synthetic image generation)  
+  configs/configs_assoc.toml (tracking / association)  
+  ```
 
 
-Associate & export trajectories
-Link instances across frames into tracks and export CSV.
+* **Execution**
+  Update the script arguments so that each stage reads from your new directory.
 
-python scripts/assoc_run_demo.py \
-  --project projects/demo_2Dsuspension_25C \
-  --out projects/demo_2Dsuspension_25C/trajs.csv
-
-
-Visualize tracks (optional)
-Overlay tracks on raw images for sanity check.
-
-python tools/visualize_tracks.py \
-  --images projects/demo_2Dsuspension_25C/images \
-  --traj   projects/demo_2Dsuspension_25C/trajs.csv \
-  --out    projects/demo_2Dsuspension_25C/vis
+The outputs (synthetic images, trained models, predictions, and trajectories)
+will be saved under the corresponding `projects/my_experiment/` subfolders.
 
 
-The exact script names/options may differ in your repo; start from the examples in scripts/ and tools/. We intentionally keep interfaces simple (few required args).
 
-Configuration
 
-Global/data presets live in configs/.
+---
+## Appendix
 
-Project-specific overrides can be placed under projects/<name>/config.(toml|yaml).
+### Tested environment
 
-Typical parameters include pixel size, FPS, association radius, IoU threshold, etc.
+The pipeline was validated in the following Python environment.  
+These versions are not strict requirements, but indicate the setup in which the code was tested and the paper results were reproduced.
 
-If a parameter table CSV is used (for simulation/sweeps), ensure integer-type keys like NperiSmpl are handled as integers.
+- Python 3.10
+- numpy 1.26.4
+- scipy 1.12.0
+- pandas 2.2.2
+- pillow 10.x
+- scikit-image 0.23.x
+- opencv-python 4.10.0
+- matplotlib 3.9.2
+- seaborn 0.13.x
+- tqdm 4.66.x
+- tifffile 2024.x
+- albumentations 2.0.8
+- numba 0.59.x
+- numexpr 2.10.x
+- colorspacious 1.1.2
+- torch 2.8.0
+- torchvision 0.23.0
 
-Outputs
 
-Masks: multi-page TIF or per-frame label TIF (0 background, 1..K instances)
-
-Trajectories: CSV/Parquet with columns like
-TIME_frame, TRACK_ID, X_(com), Y_(com), bbox_w, bbox_h, area_mask, ...
-
-Diagnostics: optional figures/PNG overlays under projects/<name>/vis/
 
 Known limitations
 
 The demo is tuned for 2D swimming bacteria; dense biofilms or extreme overlaps need further tuning.
 
-Association is currently heuristic (IoU + distance). Long gaps or fast motion may require model-based linking.
+Association is currently heuristic (IoU).
 
 Training code and pretrained weights are minimal; bring your own model if needed.
 
-Roadmap
-
- Add tiny unit tests for I/O & association logic
-
- Provide a single quickstart script that runs end-to-end on demo images
-
- Publish docs (MkDocs) with troubleshooting and FAQs
-
- Optional: release pretrained weights for the demo
 
 Contributing
 
@@ -135,7 +175,7 @@ License
 
 Code: MIT (unless stated otherwise inside subfolders)
 
-Third-party notice: Parts of the embedding-based segmentation approach are inspired by / derived from EmbedSeg. If you include or adapt EmbedSeg code/assets governed by CC BY-NC 4.0, that material remains non-commercial and must retain attribution. See THIRD_PARTY_LICENSES.md (to be added) for details.
+Third-party notice: Parts of the embedding-based segmentation approach are inspired by / derived from EmbedSeg. If you include or adapt EmbedSeg code/assets governed by CC BY-NC 4.0, that material remains non-commercial and must retain attribution. See THIRD_PARTY_LICENSES.md for details.
 
 If you plan commercial use, review third-party licenses carefully and remove/replace non-commercial components.
 
