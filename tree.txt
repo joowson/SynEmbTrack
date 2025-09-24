@@ -1,0 +1,41 @@
+projects/
+    configs/
+        configs_composit
+        configs_data
+        configs_assoc
+
+    data_raw_images/
+        {raw_image_code}/
+	images/
+    scripts/
+        01...
+        04...
+        01...
+        04...
+    src/
+        synembtrack/
+            cell_assoc/
+            EmbedSeg/
+            synth/
+                bg/
+                patch/
+                composit/
+    projects/
+        {raw_image_code}/
+            composit_result
+                patch_1
+                bg_1
+                composit_1
+            training/
+                training_1
+            tracking/
+                prediction_1
+                ...
+                assoc_1
+                ...
+    tools
+
+
+    pyproject.toml
+    README.md
+    LICENSE

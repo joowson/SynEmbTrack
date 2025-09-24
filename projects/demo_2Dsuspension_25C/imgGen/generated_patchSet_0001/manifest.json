@@ -1,0 +1,30 @@
+{
+  "timestamp": "2025-09-22T00:23:54",
+  "patch_code": "patchSet_0001",
+  "out_dir": "/home/trisara/repo/projects/demo_2Dsuspension_25C/generated_patchSet_0001",
+  "alpha_dir": "/home/trisara/repo/projects/demo_2Dsuspension_25C/generated_patchSet_0001/alpha_layer",
+  "integrity_dir": "/home/trisara/repo/projects/demo_2Dsuspension_25C/generated_patchSet_0001/integrity_check",
+  "mode": "auto",
+  "dedup_px": 8,
+  "input": {
+    "num_images": 2,
+    "images": [
+      "/home/trisara/repo/data_raw_images/demo_2Dsuspension_25C/images/frame_0050.tif",
+      "/home/trisara/repo/data_raw_images/demo_2Dsuspension_25C/images/frame_0100.tif"
+    ],
+    "manual_num_images": 0,
+    "manual_total_points": 0
+  },
+  "config": {
+    "is_obj_brighter": 0,
+    "area_th": 15,
+    "src_thresh": 4,
+    "kernel_size_for_thresholding": 15,
+    "final_crop_radi": 30,
+    "rescaling_med": 128,
+    "patch_limit": 300
+  },
+  "result": {
+    "num_patches_generated": 195
+  }
+}

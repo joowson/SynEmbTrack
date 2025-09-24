@@ -1,0 +1,76 @@
+[SYNTH.synthSet_VSreal]
+raw_data_code = "demo_2Dsuspension_25C"
+
+pxum = 2.2
+pjt_name = 'synthSet_VSreal'
+
+patch_code_to_use = 'patchSet_0001'
+bg_code_to_use    = 'bgSet_0001'
+
+
+draw_scalebar = false
+
+# -----------------------------------------
+
+seed = 14
+is_cv = 1
+
+### ----- Simulation System
+n_step = 10
+skip_interval = 1
+box_size = [200, 200]
+
+intended_density = 200.0   ### cells / 10^4 micron^2
+
+
+
+
+[SYNTH.synthSet_demoTrain]
+raw_data_code = "demo_2Dsuspension_25C"
+
+pxum = 2.2
+pjt_name = 'synthSet_demoTrain'
+
+patch_code_to_use = 'patchSet_0001'
+bg_code_to_use    = 'bgSet_0001'
+
+
+draw_scalebar = false
+
+# -----------------------------------------
+
+seed = 4
+is_cv = 0
+
+### ----- Simulation System
+n_step = 2000
+skip_interval = 230
+box_size = [400, 400]
+
+intended_density = 100.0   ### cells / 10^4 micron^2
+
+
+
+[SYNTH.synthSet_demoCV]
+raw_data_code = "demo_2Dsuspension_25C"
+
+pxum = 2.2
+pjt_name = 'synthSet_demoCV'
+
+patch_code_to_use = 'patchSet_0002'
+bg_code_to_use    = 'bgSet_0001'
+
+
+draw_scalebar = false
+
+# -----------------------------------------
+
+seed = 5
+is_cv = 1
+
+### ----- Simulation System
+n_step = 2000
+skip_interval = 230
+box_size = [400, 400]
+
+intended_density = 100.0   ### cells / 10^4 micron^2

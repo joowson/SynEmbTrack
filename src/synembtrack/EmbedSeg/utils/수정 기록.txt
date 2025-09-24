@@ -1,0 +1,4 @@
+04/04
+preprocess_data.py
+calculate_max_eval_image_size()
+a_min 1024로 되어 있는 것을 1920으로 수정
