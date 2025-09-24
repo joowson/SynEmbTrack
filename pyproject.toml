@@ -1,3 +1,36 @@
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "synembtrack"
+version = "0.1.0"
+description = "Tracking pipeline for motile bacteria using synthetic-image–aided instance segmentation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{ name = "Joowang Son" }]
+
+dependencies = [
+  "numpy",
+  "scipy",
+  "pandas",
+  "pillow",
+  "scikit-image",
+  "opencv-python",
+  "matplotlib",
+  "seaborn",
+  "tqdm",
+  "tifffile",
+  "albumentations",
+  "numba",
+  "numexpr",
+  "colorspacious",
+  "torch",
+  "torchvision",
+  "tomli; python_version<'3.11'",
+]
+
+[project.urls]
+Homepage = "https://github.com/joowson/synembtrack"
+Issues   = "https://github.com/joowson/synembtrack/issues"
