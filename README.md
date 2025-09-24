@@ -2,6 +2,8 @@
 
 This code accompanies our manuscript “Tracking of motile bacteria with synthetic image aided instance segmentation and quantitative analysis of run-and-tumble motion” (Son et al., under review).
 
+---
+
 ## Repository structure
 ```
 synembtrack/
@@ -20,8 +22,6 @@ synembtrack/
 ├─ pyproject.toml               # Packaging (PEP 621)
 └─ README.md
 ```
-
----
 
 ## Installation
 
@@ -131,7 +131,7 @@ will be saved under the corresponding `projects/my_experiment/` subfolders.
 ---
 ## Appendix
 
-### Tested environment
+* Tested environment
 
 The pipeline was validated in the following Python environment.  
 These versions are not strict requirements, but indicate the setup in which the code was tested and the paper results were reproduced.
@@ -156,22 +156,20 @@ These versions are not strict requirements, but indicate the setup in which the 
 
 
 
-Known limitations
+* Known limitations
 
 The demo is tuned for 2D swimming bacteria; dense biofilms or extreme overlaps need further tuning.
-
 Association is currently heuristic (IoU).
-
 Training code and pretrained weights are minimal; bring your own model if needed.
 
 
-Contributing
+* Contributing
 
 Pull requests are welcome!
 Please keep code style simple and add short English comments/docstrings.
 For features with many parameters, prefer config files over long CLI flags.
 
-License
+* License
 
 Code: MIT (unless stated otherwise inside subfolders)
 
@@ -179,7 +177,7 @@ Third-party notice: Parts of the embedding-based segmentation approach are inspi
 
 If you plan commercial use, review third-party licenses carefully and remove/replace non-commercial components.
 
-Citation
+* Citation
 
 If you use this software in your research, please cite:
 
@@ -191,13 +189,11 @@ If you use this software in your research, please cite:
 }
 
 
-A CITATION.cff will be provided in releases for citation managers and Zenodo DOI integration.
-
-Acknowledgements
+* Acknowledgements
 
 We acknowledge the developers of EmbedSeg and related open-source tools in the microscopy tracking ecosystem. Community feedback and issues are very welcome.
 
-Questions?
+* Questions?
 
 Open an Issue or start a Discussion on GitHub.
 Happy tracking! 🦠📈
