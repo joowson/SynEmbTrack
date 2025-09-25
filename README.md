@@ -191,8 +191,4 @@ will be saved under the corresponding `projects/my_experiment/` subfolders.
 ### Acknowledgements
 
 We acknowledge the developers of EmbedSeg and related open-source tools in the microscopy tracking ecosystem. Community feedback and issues are very welcome.
-
-* Questions?
-
-Open an Issue or start a Discussion on GitHub.
-Happy tracking! 🦠📈
+Open an Issue or start a Discussion on GitHub. Happy tracking! 🦠📈
