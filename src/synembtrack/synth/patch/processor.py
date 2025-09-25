@@ -47,7 +47,8 @@ class Processor:
 
     def threshold_frame(self, img_u8: np.ndarray) -> np.ndarray:
         cfg = self.cfg
-        frame_2_thresh = (img_u8 * ((-1) ** (cfg.is_obj_brighter + 1))).astype(np.uint8)
+        if cfg.is_obj_brighter: frame_2_thresh = img_u8
+        else:    frame_2_thresh = 255 - img_u8
         thr = self._adaptive(frame_2_thresh, threshold=-cfg.src_thresh, kernel_size=cfg.kernel_size_for_thresholding)
         return thr
 
