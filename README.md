@@ -33,24 +33,29 @@ conda create -n synembtrack python=3.10 -y
 conda activate synembtrack
 ```
 
-Then install the package:
+### Download the code
 
+Choose one of the following:
+
+- **Option A:** Download the [Source code (ZIP)](https://github.com/joowson/SynEmbTrack/archive/refs/heads/main.zip) and extract it.  
+- **Option B:** Clone the repository with shallow history:
+  ```bash
+  git clone --depth 1 https://github.com/joowson/SynEmbTrack.git
+  ```
+
+### Install the package
 ```bash
-git clone https://github.com/joowson/synembtrack.git
-cd synembtrack
-
+cd SynEmbTrack
 # Editable mode (recommended for development)
 pip install -e .
 # Or, standard installation
 pip install .
 ```
-
 This makes the package synembtrack importable in Python.
-
 
 ## Quickstart
 
-### Smoke test (5 min)
+### Smoke test
 ```
 python -c "import synembtrack, importlib; print('synembtrack ok')"
 ```
