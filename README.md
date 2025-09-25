@@ -7,7 +7,7 @@ This code accompanies our manuscript “Tracking of motile bacteria with synthet
 
 ## Repository structure
 ```
-synembtrack/
+SynEmbTrack/
 ├─ configs/                     # Presets & config samples (TOML/YAML)
 ├─ data_raw_images/             # (tiny) demo raw images for quick try-out
 ├─ projects/                    # Example project folders (outputs live here)
