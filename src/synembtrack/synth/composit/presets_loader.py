@@ -2,7 +2,11 @@
 from typing import Any, Dict, Mapping
 from types import SimpleNamespace
 import os
-import tomllib  # stdlib TOML parser (Py 3.11+)
+#import tomllib  # stdlib TOML parser (Py 3.11+)
+try:
+    import tomllib  # Python 3.11+
+except ModuleNotFoundError:
+    import tomli as tomllib  # Fallback for Python <3.11
 
 
 
