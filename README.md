@@ -29,8 +29,8 @@ SynEmbTrack/
 We recommend creating a clean virtual environment (e.g., with **conda**) before installation:
 
 ```bash
-conda create -n synembtrack python=3.10 -y
-conda activate synembtrack
+conda create -n SETenv python=3.10 -y
+conda activate SETenv
 ```
 
 ### Download the code
