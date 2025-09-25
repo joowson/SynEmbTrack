@@ -1,4 +1,4 @@
-**synembtrack** provides the source code, scripts and demo required to reproduce the pipeline used in our paper: synthetic data generation → embedding-based instance segmentation → frame-to-frame association and trajectory extraction. The repository favors small, script-driven workflows over complex CLIs and includes a tiny demo for a quick smoke test aimed at scholarly reproducibility.
+**SynEmbTrack (SET)** provides the source code, scripts and demo required to reproduce the pipeline used in our paper: synthetic data generation → embedding-based instance segmentation → frame-to-frame association and trajectory extraction. The repository favors small, script-driven workflows over complex CLIs and includes a tiny demo for a quick smoke test aimed at scholarly reproducibility.
 
 This code accompanies our manuscript “Tracking of motile bacteria with synthetic image aided instance segmentation and quantitative analysis of run-and-tumble motion” (Son et al., under review).
 
