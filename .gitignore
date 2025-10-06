@@ -1,7 +1,11 @@
 # result folder
 
-projects/
-pretrained/
+projects/   ### working directory for developer (Owner) or users.
+examples_projects/ ### guide to download the zip file of this folder.
+
+# pretrained/
+
+UnderConstruction/ ### backup for developer
 
 
 
