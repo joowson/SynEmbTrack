@@ -9,7 +9,7 @@ from synembtrack.EmbedSeg.utils.utils2 import matching_dataset, obtain_AP_one_ho
 import torch.nn.functional as F
 torch.backends.cudnn.benchmark = True
 import numpy as np
-from tifffile import imsave
+from tifffile import imwrite
 from PIL import Image
 from matplotlib.patches import Ellipse
 from synembtrack.EmbedSeg.utils.test_time_augmentation import apply_tta_2d, apply_tta_3d
@@ -231,7 +231,7 @@ def test(verbose, grid_y=1024, grid_x=1024, pixel_y=1, pixel_x=1, one_hot = Fals
 
 
                 ## save prediction in integer mask
-                #imsave(instances_file, instance_map.cpu().detach().numpy().astype(np.uint16))
+                #imwrite(instances_file, instance_map.cpu().detach().numpy().astype(np.uint16))
 
 
                 #instances_file_test = os.path.join(save_dir, 'predictions/', base + 'test_.tif')
@@ -240,7 +240,7 @@ def test(verbose, grid_y=1024, grid_x=1024, pixel_y=1, pixel_x=1, one_hot = Fals
                 img.save(instances_file, compression = 'tiff_adobe_deflate')
                 img.close()
 
-                ## 압축과정. 압축 전후 동일한 array를 불러올 수 있음은 확인. imsave()에서 바로 압축을 거치는 것은 아직 확인하지 못함.
+                ## 압축과정. 압축 전후 동일한 array를 불러올 수 있음은 확인. imwrite()에서 바로 압축을 거치는 것은 아직 확인하지 못함.
 
                 ## split to single mask (2022.11. 폐기)
                 #get_single_TIFs(os.path.join(save_dir, 'predictions/'), take_last_one = True)
@@ -253,7 +253,7 @@ def test(verbose, grid_y=1024, grid_x=1024, pixel_y=1, pixel_x=1, one_hot = Fals
                 # save ground truth
                 if ('instance' in sample):
                     gt_file = os.path.join(save_dir, 'ground-truth/', base + '.tif')
-                    # imsave(gt_file, instances.cpu().detach().numpy().astype(np.uint16))
+                    # imwrite(gt_file, instances.cpu().detach().numpy().astype(np.uint16))
 
 
 
@@ -408,16 +408,16 @@ def test_3d(verbose, grid_x=1024, grid_y=1024, grid_z= 32, pixel_x=1, pixel_y=1,
                 imageFileNames.append(base)
 
                 instances_file = os.path.join(save_dir, 'predictions/', base + '.tif')
-                imsave(instances_file, instance_map.cpu().detach().numpy().astype(np.uint16))
+                imwrite(instances_file, instance_map.cpu().detach().numpy().astype(np.uint16))
                 if ('instance' in sample):
                     gt_file = os.path.join(save_dir, 'ground-truth/', base + '.tif')
-                    imsave(gt_file, instances.cpu().detach().numpy().astype(np.uint16))
+                    imwrite(gt_file, instances.cpu().detach().numpy().astype(np.uint16))
 
                 seeds_file = os.path.join(save_dir, 'seeds/', base + '.tif')
-                imsave(seeds_file, torch.sigmoid(output[0, -1, ...]).cpu().detach().numpy())
+                imwrite(seeds_file, torch.sigmoid(output[0, -1, ...]).cpu().detach().numpy())
 
                 im_file = os.path.join(save_dir, 'images/', base + '.tif')
-                imsave(im_file, im[0,0].cpu().detach().numpy())
+                imwrite(im_file, im[0,0].cpu().detach().numpy())
 
 
         if save_results and 'instance' in sample:
