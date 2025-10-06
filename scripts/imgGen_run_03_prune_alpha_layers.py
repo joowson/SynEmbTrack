@@ -17,7 +17,14 @@ from synembtrack._paths import get_results_dir
 
 
 raw_data_code = "demo_2Dsuspension_25C" 
+
+
+## for training set
+PATCH_CODE = "patchSet_0001"
+
+## for validation set
 PATCH_CODE = "patchSet_0002"
+
 
 BASE_DIR = get_results_dir() / Path(f"{raw_data_code}/") / 'imgGen' /f"generated_{PATCH_CODE}"
 INTEGRITY_DIR = BASE_DIR / "integrity_check"

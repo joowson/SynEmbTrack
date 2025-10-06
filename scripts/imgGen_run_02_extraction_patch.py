@@ -13,22 +13,28 @@ import os
 
 # ---------------- USER CONFIG (edit here) ----------------
 
-raw_data_code = "demo_2Dsuspension_25C" 
-
-out_patch_code = "patchSet_0002"
+raw_data_code = "demo_2Dsuspension_25C"
 
 
-image_path = str(get_raw_data_dir() / raw_data_code / "images" )
 
-IMAGE_LIST = [
-    os.path.join(image_path, 'frame_0080.tif'),
-    os.path.join(image_path, 'frame_0090.tif')
-    #...
-]
+## for training set:
+out_patch_code = "patchSet_0001"
+frames_to_use  = [  'frame_0011.tif',
+                    'frame_0021.tif',
+                    'frame_0031.tif']
 
+## for validation set:  ## comment out to use
+# out_patch_code = "patchSet_0002"
+# frames_to_use  = [  'frame_0080.tif',
+#                     'frame_0090.tif']
+
+
+
+
+#-----------settings for making candidates---------------------------------------
 
 ### set collecting method
-candidate_collectin_MODE = "auto"      # "auto" | "manual" | "hybrid"
+candidate_collectin_MODE = "auto"       # "auto" | "manual" | "hybrid"
 
 src_thresh=4
 kernel_size_for_thresholding=15
@@ -42,19 +48,25 @@ MANUAL: ManualSpec = {
 }
 
 # Used only in hybrid mode
-DEDUP_PX = 8       
+DEDUP_PX = 8
 
 
-#%%
+#%% ---------------------------------------------------------
+
+image_path = str(get_raw_data_dir() / raw_data_code / "images" )
+IMAGE_LIST = []
+for frame_name in frames_to_use:
+    IMAGE_LIST.append(os.path.join(image_path, frame_name))
+
 CFG = PatchConfig(
     is_obj_brighter=0,
     src_thresh=src_thresh,
     kernel_size_for_thresholding=kernel_size_for_thresholding,
-    
+
     final_crop_radi=30,
     area_th=15,
     rescaling_med=128,
-    
+
     patch_limit=300,
     patch_code=out_patch_code,
     out_root=Path(out_path)

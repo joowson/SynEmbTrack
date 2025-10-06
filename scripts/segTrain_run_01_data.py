@@ -28,7 +28,7 @@ from synembtrack.utils.dataset_io import copy_dataset_to_training
 ### use synthecized data
 raw_data_code       = 'demo_2Dsuspension_25C'
 import_train_code  = 'synthSet_demoTrain'
-import_cv_code     = 'synthSet_demoCV'
+import_cv_code     = 'synthSet_demoVal'
 
 trainingSet_code   = 'demo'
 
@@ -36,12 +36,12 @@ trainingSet_code   = 'demo'
 train_data_dir, data_folder = copy_dataset_to_training(
     raw_data_code      = raw_data_code,
     result_archive_dir = get_results_dir(),
-    
+
     import_train_code = import_train_code,
     import_cv_code    = import_cv_code,
-    
+
     trainingSet_code  = trainingSet_code,
-    
+
     # skip_if_exists     = True,
 )
 
@@ -49,7 +49,7 @@ train_data_dir, data_folder = copy_dataset_to_training(
 
 
 # In[3]:
-    
+
 os.chdir(train_data_dir)
 
 
@@ -64,20 +64,20 @@ project_name = data_folder
 
 split_train_test(
     data_dir = data_dir,
-    project_name = project_name, 
+    project_name = project_name,
     train_test_name = 'train',
     subset = 0.2)
 
 
 # In[5]:
 
-# For this dataset, instead of reserving a small fraction of the train dataset for validation at this stage, we first crop the images and masks in the subsequent code cells, and 
-# <b><a href= "split_val">later</a></b> reserve some of the generated crops for the purposes of validation. We notice that such a strategy allows better results for `bbbc010-2012` during prediction 
+# For this dataset, instead of reserving a small fraction of the train dataset for validation at this stage, we first crop the images and masks in the subsequent code cells, and
+# <b><a href= "split_val">later</a></b> reserve some of the generated crops for the purposes of validation. We notice that such a strategy allows better results for `bbbc010-2012` during prediction
 # (because of a small dataset size). Running the next cell simply copies the train and test images and masks to the `$data_dir/$project_name/train/.` and `$data_dir/$project_name/test/.` respectively.
 
 split_train_val(
     data_dir = data_dir,
-    project_name = project_name, 
+    project_name = project_name,
     train_val_name = 'train',
     subset = 0.0)
 
@@ -85,7 +85,7 @@ split_train_val(
 # ### Specify desired centre location for spatial embedding of pixels
 # <a id='center'></a>
 
-# Interior pixels of an object instance can either be embedded at the `medoid`, the `approximate-medoid` or the `centroid`. 
+# Interior pixels of an object instance can either be embedded at the `medoid`, the `approximate-medoid` or the `centroid`.
 
 # In[6]:
 
@@ -102,18 +102,18 @@ except AssertionError as e:
 # ### Calculate some dataset specific properties
 
 # In the next cell, we will calculate properties of the data such as `min_object_size`, `foreground_weight` etc. <br>
-# We will also specify some properties, for example,  
-# * set `data_properties_dir['one_hot'] = True` in case the instances are encoded in a one-hot style. 
-# * set `data_properties_dir['data_type']='16-bit'` if the images are of datatype `unsigned 16 bit` and 
+# We will also specify some properties, for example,
+# * set `data_properties_dir['one_hot'] = True` in case the instances are encoded in a one-hot style.
+# * set `data_properties_dir['data_type']='16-bit'` if the images are of datatype `unsigned 16 bit` and
 #     `data_properties_dir['data_type']='8-bit'` if the images are of datatype `unsigned 8 bit`.
-# 
+#
 # Lastly, we will save the dictionary `data_properties_dir` in a json file, which we will access in the `02-train` and `03-predict` notebooks.
 
 # In[7]:
 
 
 one_hot = True
-data_properties_dir = get_data_properties(data_dir, project_name, train_val_name=['train'], 
+data_properties_dir = get_data_properties(data_dir, project_name, train_val_name=['train'],
                                           test_name=['test'], mode='2d', one_hot=one_hot)
 
 data_properties_dir['data_type']='8-bit'
@@ -138,17 +138,17 @@ def round_up_8(x):
 
 
 crops_dir = './crops'
-data_subset = 'train' 
+data_subset = 'train'
 crop_size = np.maximum(round_up_8(3*data_properties_dir['avg_object_size_y'] + 5*data_properties_dir['stdev_object_size_y']),
 round_up_8(data_properties_dir['avg_object_size_x'] + 5*data_properties_dir['stdev_object_size_x']))
 print("Crop size in x and y will be set equal to {}".format(crop_size))
 ## 8의 배수가 되어야 함.
 
 # ### Generate Crops
-# 
-# 
+#
+#
 
-# <div class="alert alert-block alert-warning"> 
+# <div class="alert alert-block alert-warning">
 #     The cropped images and masks are saved at the same-location as the example notebooks. <br>
 #     Generating the crops might take a little while!
 # </div>
@@ -158,8 +158,8 @@ print("Crop size in x and y will be set equal to {}".format(crop_size))
 
 image_dir = os.path.join(data_dir, project_name, data_subset, 'images')
 instance_dir = os.path.join(data_dir, project_name, data_subset, 'masks')
-image_names = sorted(glob(os.path.join(image_dir, '*.tif'))) 
-instance_names = sorted(glob(os.path.join(instance_dir, '*.tif')))  
+image_names = sorted(glob(os.path.join(image_dir, '*.tif')))
+instance_names = sorted(glob(os.path.join(instance_dir, '*.tif')))
 for i in tqdm(np.arange(len(image_names))):
     if one_hot:
         process_one_hot(image_names[i], instance_names[i], os.path.join(crops_dir, project_name), data_subset, crop_size, center, one_hot = one_hot)
@@ -170,7 +170,7 @@ print("Cropping of images, instances and centre_images for data_subset = `{}` do
 
 # ### Move a fraction of the generated crops for validation purposes
 
-# Here we reserve a small fraction (15 \% by default) of the images, masks and center-images crops for the purpose of validation. 
+# Here we reserve a small fraction (15 \% by default) of the images, masks and center-images crops for the purpose of validation.
 # <a id="later_val">
 
 # In[11]:
@@ -179,18 +179,14 @@ print("Cropping of images, instances and centre_images for data_subset = `{}` do
 split_train_crops(project_name = project_name, center = center, crops_dir = crops_dir, subset = 0.15)
 
 
-# ### Visualize cropped images, corresponding ground truth masks and object center images 
+# ### Visualize cropped images, corresponding ground truth masks and object center images
 
 # In[12]:
 
 
 new_cmap = np.load( get_project_root() / 'src' / 'synembtrack' / 'cmaps/cmap_60.npy')
-new_cmap = ListedColormap(new_cmap) # new_cmap = 'magma' would also work! 
+new_cmap = ListedColormap(new_cmap) # new_cmap = 'magma' would also work!
 visualize_many_crops(data_dir=crops_dir, project_name=project_name, train_val_dir='val', center=center, n_images=5, new_cmp=new_cmap, one_hot=one_hot)
 
 
 # In[ ]:
-
-
-
-

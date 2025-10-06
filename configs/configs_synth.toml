@@ -51,11 +51,11 @@ intended_density = 100.0   ### cells / 10^4 micron^2
 
 
 
-[SYNTH.synthSet_demoCV]
+[SYNTH.synthSet_demoVal]
 raw_data_code = "demo_2Dsuspension_25C"
 
 pxum = 2.2
-pjt_name = 'synthSet_demoCV'
+pjt_name = 'synthSet_demoVal'
 
 patch_code_to_use = 'patchSet_0002'
 bg_code_to_use    = 'bgSet_0001'
