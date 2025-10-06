@@ -2,7 +2,10 @@
 from typing import Any, Dict
 from types import SimpleNamespace
 import os
-import tomllib  # stdlib TOML parser (Py 3.11+)
+try:
+    import tomllib  # Python 3.11+
+except ModuleNotFoundError:
+    import tomli as tomllib  # For Python <3.11
 
 # Defaults (preset can override)
 DEFAULT_ASSOC: Dict[str, Any] = {
@@ -22,7 +25,7 @@ def _read_toml(path: str) -> Dict[str, Any]:
 def load_data_preset(file_path: str, name: str) -> Dict[str, Any]:
     """Return DATA[name] dict from file_path (expects [DATA.<name>])."""
     root = _read_toml(file_path)
-    
+
     print(root)
     d = root["DATA"][name]
     # minimal coercion
