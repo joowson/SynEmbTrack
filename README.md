@@ -65,7 +65,7 @@ python -c "import synembtrack, importlib; print('synembtrack ok')"
 To reproduce the full pipeline, run the scripts in the following order:
 
 ```bash
-# 1. Synthetic data preparation
+# 1. Synthetic data generation
 python scripts/imgGen_run_01_extraction_background.py
 python scripts/imgGen_run_02_extraction_patch.py
 python scripts/imgGen_run_03_prune_alpha_layers.py
@@ -80,14 +80,38 @@ python scripts/track_run_03_predict.py
 python scripts/track_run_04_run_associ.py
 ````
 
+🟩 **Note:**  
+Steps 2–4 must each be run **twice** — once for the **training set** and once for the **validation set**.  
+This can be done by switching the corresponding code blocks inside each script, e.g.:
+
+```python
+## for training set:
+out_patch_code = "patchSet_0001"
+frames_to_use  = ['frame_0011.tif', 'frame_0021.tif', 'frame_0031.tif']
+## for validation set:  ## comment out to use
+# out_patch_code = "patchSet_0002"
+# frames_to_use  = ['frame_0080.tif', 'frame_0090.tif']
+````
+
 ### Step overview
 
+
+Generation of training dataset
 1. **Background extraction** – extract background from raw images.
+
 2. **Patch extraction** – cut out cell/patch regions.
 3. **Prune alpha layers** – manually inspect extracted patches in the `integrity_check/` folder and delete non-bacterial objects. The corresponding patch files in `alpha_layer/` are removed accordingly.
 4. **Synthetic image generation** – build the synthetic training dataset.
+
+Note:
+Each of these steps (2–4) should be executed twice: once to generate the training dataset, and once to generate the validation dataset
+You can toggle between the two modes by modifying the active code block in each script.
+
+Training
 5. **Prepare training data** – organize images and masks for segmentation.
 6. **Train segmentation model** – train the embedding-based instance segmentation network.
+
+Segmentation + Association
 7. **Predict** – apply the trained model to generate instance masks.
 8. **Association** – link objects across frames and produce trajectories.
 
