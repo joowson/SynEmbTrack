@@ -25,8 +25,7 @@ frames_to_use  = [  'frame_0011.tif',
 
 ## for validation set:  ## comment out to use
 # out_patch_code = "patchSet_0002"
-# frames_to_use  = [  'frame_0080.tif',
-#                     'frame_0090.tif']
+frames_to_use  = ['frame_0090.tif']
 
 
 
